@@ -10,6 +10,7 @@ public class Assento {
     public Assento(char situacao, int id) {
         this.situacao = situacao;
         this.id = id;
+        System.out.println("teste");
     }
 
     public int[] getAssentos() {
