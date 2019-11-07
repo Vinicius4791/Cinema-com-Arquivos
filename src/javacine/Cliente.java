@@ -2,6 +2,7 @@ package javacine;
 
 public class Cliente extends Pessoa {
     private String tipoCliente;
+    Endereco endereco = new Endereco();
     
     public Cliente(){
         super();
@@ -19,6 +20,16 @@ public class Cliente extends Pessoa {
     public void setTipoCliente(String tipoCliente) {
         this.tipoCliente = tipoCliente;
     }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+    
+    
       
     
 }

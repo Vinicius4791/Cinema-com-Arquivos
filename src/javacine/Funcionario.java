@@ -3,6 +3,10 @@ package javacine;
 public class Funcionario extends Pessoa {
     private String funcao;
     private double salario;
+    private final float pipocaPequena = 4;
+    private final float pipocaGrande = 7;
+    private final float agua = 3;
+    private final float chocolate = 4;
     
     public Funcionario(){
         super();
@@ -13,7 +17,7 @@ public class Funcionario extends Pessoa {
         this.funcao = funcao;
         this.salario = salario;
     }
-
+    
     public String getFuncao() {
         return funcao;
     }

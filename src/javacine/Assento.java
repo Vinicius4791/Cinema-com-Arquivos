@@ -1,7 +1,8 @@
 package javacine;
 
-public class Assento {
-    private int[] assentos = new int[200];
+import java.io.Serializable;
+
+public class Assento implements Serializable{
     private char situacao;
     private int id;
     
@@ -10,15 +11,6 @@ public class Assento {
     public Assento(char situacao, int id) {
         this.situacao = situacao;
         this.id = id;
-        System.out.println("teste");
-    }
-
-    public int[] getAssentos() {
-        return assentos;
-    }
-
-    public void setAssentos(int[] assentos) {
-        this.assentos = assentos;
     }
 
     public char getSituacao() {

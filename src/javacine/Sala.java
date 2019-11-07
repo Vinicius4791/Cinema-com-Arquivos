@@ -1,8 +1,11 @@
 package javacine;
 
-public class Sala {
+import java.io.Serializable;
+
+public class Sala implements Serializable{
     private int numeroSala;
     private Assento assentos;
+    private int numeroAssentos;
     private Sessao sessao;
     
     public Sala(){}
@@ -29,6 +32,14 @@ public class Sala {
         this.assentos = assentos;
     }
 
+    public int getNumeroAssentos() {
+        return numeroAssentos;
+    }
+
+    public void setNumeroAssentos(int numeroAssentos) {
+        this.numeroAssentos = numeroAssentos;
+    }
+    
     public Sessao getSessao() {
         return sessao;
     }

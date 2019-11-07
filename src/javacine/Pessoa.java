@@ -1,6 +1,8 @@
 package javacine;
 
-public class Pessoa {
+import java.io.Serializable;
+
+public class Pessoa implements Serializable{
     private String nome;
     private String identidade;
     private String cpf;

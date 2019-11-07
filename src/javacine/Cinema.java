@@ -1,14 +1,17 @@
 package javacine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CineJava {
+public class Cinema implements Serializable{
     private Endereco endereco = new Endereco();
     private ArrayList<Sala> salas = new ArrayList<Sala>();
     private ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>();
     private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 
-    public CineJava(Endereco endereco, ArrayList<Sala> salas, ArrayList<Funcionario> funcionarios, ArrayList<Cliente> clientes) {
+    public Cinema(){}
+    
+    public Cinema(Endereco endereco, ArrayList<Sala> salas, ArrayList<Funcionario> funcionarios, ArrayList<Cliente> clientes) {
         this.endereco = endereco;
         this.salas = salas;
         this.funcionarios = funcionarios;

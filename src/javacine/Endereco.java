@@ -1,6 +1,8 @@
 package javacine;
 
-public class Endereco {
+import java.io.Serializable;
+
+public class Endereco implements Serializable {
     private String cidade;
     private String bairro;
     private String rua;
