@@ -50,7 +50,16 @@ public class Cinema implements Serializable{
         this.clientes = clientes;
     }
     
+    public Cliente getCliente(String nomeCliente){
+        for (Cliente cliente : clientes) {
+            if(cliente.getNome().equals(nomeCliente)){
+                return cliente;
+            }
+        }
+        return null;
+    }
     
-    
-    
+    public void setCliente(Cliente cliente){
+        this.clientes.add(cliente);
+    }
 }

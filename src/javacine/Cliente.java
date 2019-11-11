@@ -1,24 +1,24 @@
 package javacine;
 
 public class Cliente extends Pessoa {
-    private String tipoCliente;
+    private int idade;
     Endereco endereco = new Endereco();
     
     public Cliente(){
         super();
     }
     
-    public Cliente(String nome, String identidade, String cpf, int id, String tipoCliente) {
+    public Cliente(String nome, String identidade, String cpf, int id, int idade) {
         super(nome, identidade, cpf, id);
-        this.tipoCliente = tipoCliente;
+        this.idade = idade;
     }
 
-    public String getTipoCliente() {
-        return tipoCliente;
+    public int getIdade() {
+        return idade;
     }
 
-    public void setTipoCliente(String tipoCliente) {
-        this.tipoCliente = tipoCliente;
+    public void setIdade(int idade) {
+        this.idade = idade;
     }
 
     public Endereco getEndereco() {

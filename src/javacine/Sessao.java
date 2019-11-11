@@ -1,10 +1,10 @@
 package javacine;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Sessao implements Serializable{
-    private Date dataSessao;
+    private int diaSessao;
+    private int mesSessao;
     private String horarioSessao;
     private boolean iniciada;
     private boolean encerrada;
@@ -13,8 +13,8 @@ public class Sessao implements Serializable{
     
     public Sessao(){}
 
-    public Sessao(Date dataSessao, String horarioSessao, boolean iniciada, boolean encerrada, int id, Filme filme) {
-        this.dataSessao = dataSessao;
+    public Sessao(int diaSessao, String horarioSessao, boolean iniciada, boolean encerrada, int id, Filme filme) {
+        this.diaSessao = diaSessao;
         this.horarioSessao = horarioSessao;
         this.iniciada = iniciada;
         this.encerrada = encerrada;
@@ -22,12 +22,20 @@ public class Sessao implements Serializable{
         this.filme = filme;
     }
 
-    public Date getDataSessao() {
-        return dataSessao;
+    public int getDiaSessao() {
+        return diaSessao;
     }
 
-    public void setDataSessao(Date dataSessao) {
-        this.dataSessao = dataSessao;
+    public void setDataSessao(int diaSessao) {
+        this.diaSessao = diaSessao;
+    }
+
+    public int getMesSessao() {
+        return mesSessao;
+    }
+
+    public void setMesSessao(int mesSessao) {
+        this.mesSessao = mesSessao;
     }
 
     public String getHorarioSessao() {
