@@ -1,11 +1,12 @@
 package javacine;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Sessao implements Serializable{
-    private int diaSessao;
-    private int mesSessao;
-    private String horarioSessao;
+    private Date dataInicio;
+    private Date dataFim;
+    private Date horarioSessao;
     private boolean iniciada;
     private boolean encerrada;
     private int id;
@@ -13,8 +14,9 @@ public class Sessao implements Serializable{
     
     public Sessao(){}
 
-    public Sessao(int diaSessao, String horarioSessao, boolean iniciada, boolean encerrada, int id, Filme filme) {
-        this.diaSessao = diaSessao;
+    public Sessao(Date dataInicio, Date dataFim, Date horarioSessao, boolean iniciada, boolean encerrada, int id, Filme filme) {
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
         this.horarioSessao = horarioSessao;
         this.iniciada = iniciada;
         this.encerrada = encerrada;
@@ -22,27 +24,27 @@ public class Sessao implements Serializable{
         this.filme = filme;
     }
 
-    public int getDiaSessao() {
-        return diaSessao;
+    public Date getDataInicio() {
+        return dataInicio;
     }
 
-    public void setDataSessao(int diaSessao) {
-        this.diaSessao = diaSessao;
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public int getMesSessao() {
-        return mesSessao;
+    public Date getDataFim() {
+        return dataFim;
     }
 
-    public void setMesSessao(int mesSessao) {
-        this.mesSessao = mesSessao;
+    public void setDataFim(Date dataFim) {
+        this.dataFim = dataFim;
     }
-
-    public String getHorarioSessao() {
+    
+    public Date getHorarioSessao() {
         return horarioSessao;
     }
 
-    public void setHorarioSessao(String horarioSessao) {
+    public void setHorarioSessao(Date horarioSessao) {
         this.horarioSessao = horarioSessao;
     }
 

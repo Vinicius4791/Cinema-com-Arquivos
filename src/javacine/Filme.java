@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class Filme implements Serializable{
     private String titulo;
-    private String duracao;
+    private int duracao;
     private String genero;
     private String descricao;
     private int id;
     
     public Filme(){}
 
-    public Filme(String titulo, String duracao, String genero, String descricao, int id) {
+    public Filme(String titulo, int duracao, String genero, String descricao, int id) {
         this.titulo = titulo;
         this.duracao = duracao;
         this.genero = genero;
@@ -27,11 +27,11 @@ public class Filme implements Serializable{
         this.titulo = titulo;
     }
 
-    public String getDuracao() {
+    public int getDuracao() {
         return duracao;
     }
 
-    public void setDuracao(String duracao) {
+    public void setDuracao(int duracao) {
         this.duracao = duracao;
     }
 

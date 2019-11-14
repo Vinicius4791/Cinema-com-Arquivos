@@ -3,6 +3,7 @@ package javacine;
 public class Cliente extends Pessoa {
     private int idade;
     Endereco endereco = new Endereco();
+    Conta conta = new Conta();
     
     public Cliente(){
         super();
@@ -27,6 +28,14 @@ public class Cliente extends Pessoa {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public Conta getConta() {
+        return conta;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
     }
     
     
