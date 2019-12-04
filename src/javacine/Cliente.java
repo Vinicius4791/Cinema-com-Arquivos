@@ -9,8 +9,8 @@ public class Cliente extends Pessoa {
         super();
     }
     
-    public Cliente(String nome, String identidade, String cpf, int id, int idade) {
-        super(nome, identidade, cpf, id);
+    public Cliente(String nome, String identidade, String cpf, int idade) {
+        super(nome, identidade, cpf);
         this.idade = idade;
     }
 

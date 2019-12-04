@@ -7,16 +7,14 @@ public class Filme implements Serializable{
     private int duracao;
     private String genero;
     private String descricao;
-    private int id;
     
     public Filme(){}
 
-    public Filme(String titulo, int duracao, String genero, String descricao, int id) {
+    public Filme(String titulo, int duracao, String genero, String descricao) {
         this.titulo = titulo;
         this.duracao = duracao;
         this.genero = genero;
         this.descricao = descricao;
-        this.id = id;
     }
 
     public String getTitulo() {
@@ -49,16 +47,5 @@ public class Filme implements Serializable{
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    
-            
+    }      
 }

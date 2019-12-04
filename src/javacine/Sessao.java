@@ -6,24 +6,33 @@ import java.util.Date;
 public class Sessao implements Serializable{
     private Date dataInicio;
     private Date dataFim;
-    private Date horarioSessao;
-    private boolean iniciada;
-    private boolean encerrada;
-    private int id;
+    private int horario;
     private Filme filme;
+    private char[][] situacaoAssento = new char[10][10];
     
     public Sessao(){}
 
-    public Sessao(Date dataInicio, Date dataFim, Date horarioSessao, boolean iniciada, boolean encerrada, int id, Filme filme) {
+    public Sessao(Date dataInicio, Date dataFim, Filme filme) {
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
-        this.horarioSessao = horarioSessao;
-        this.iniciada = iniciada;
-        this.encerrada = encerrada;
-        this.id = id;
         this.filme = filme;
     }
+    public void disponibilizarCadeiras() {
+        for(int i=0; i < situacaoAssento.length; i++) {
+            for(int j=0; j < situacaoAssento[i].length; j++) {
+                situacaoAssento[i][j] = 'O';
+            }
+        }
+    }
 
+    public char[][] getSituacaoAssento() {
+        return situacaoAssento;
+    }
+
+    public void setSituacaoAssento(char[][] situacaoAssento) {
+        this.situacaoAssento = situacaoAssento;
+    }
+    
     public Date getDataInicio() {
         return dataInicio;
     }
@@ -39,37 +48,13 @@ public class Sessao implements Serializable{
     public void setDataFim(Date dataFim) {
         this.dataFim = dataFim;
     }
-    
-    public Date getHorarioSessao() {
-        return horarioSessao;
+
+    public int getHorario() {
+        return horario;
     }
 
-    public void setHorarioSessao(Date horarioSessao) {
-        this.horarioSessao = horarioSessao;
-    }
-
-    public boolean isIniciada() {
-        return iniciada;
-    }
-
-    public void setIniciada(boolean iniciada) {
-        this.iniciada = iniciada;
-    }
-
-    public boolean isEncerrada() {
-        return encerrada;
-    }
-
-    public void setEncerrada(boolean encerrada) {
-        this.encerrada = encerrada;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setHorario(int horario) {
+        this.horario = horario;
     }
 
     public Filme getFilme() {

@@ -4,16 +4,18 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ClasseP {
     public static void main(String[] args) {
-        int opcao;
+        int opcao, op = 1, numSala = -1;
         Arquivo arquivo = new Arquivo();
-        Cinema cinema = new Cinema();
-        cinema = arquivo.read();
+        Cinema cinema = arquivo.read();
+        
+        if(cinema == null)
+            cinema = new Cinema();
+        
+        Funcionario funcionario = new Funcionario();
         
         while(true) {
             opcao = menu();
@@ -31,22 +33,39 @@ public class ClasseP {
                 menuCompras(cinema);
             }
             else if(opcao == 5) {
-                arquivo.write(cinema);
-                System.exit(0);
+                ArrayList<Sala> salas = cinema.getSalas();
+                mostraFilmes(salas);
             }
             else if(opcao == 6) {
+                arquivo.write(cinema);
+                System.exit(0);
+            } else if(opcao == 7) {
                 int senha = 1234, senha1;
-                senha1 = Integer.parseInt(JOptionPane.showInputDialog(null, "Senha: "));
-                if(senha1 == senha)
-                    insereSala(cinema);
-                else
+                
+                try {
+                    senha1 = Integer.parseInt(JOptionPane.showInputDialog(null, "Senha: "));
+                if(senha1 == senha) {
+                    op = menuSessao();
+                    if(op == 1)
+                        funcionario.insereSala(cinema);
+                    else {
+                        numSala = Integer.parseInt(JOptionPane.showInputDialog(null, "Número da sala: "));
+                        for(Sala sala : cinema.getSalas()) {
+                            if(numSala == sala.getNumeroSala())
+                                funcionario.insereSessao(sala);
+                            else
+                                JOptionPane.showMessageDialog(null, "Sala não existe");
+                        }
+                    }
+                } else
                     JOptionPane.showMessageDialog(null, "Senha Incorreta.");
-            }
+                } catch(NumberFormatException erro) {
+                    System.out.println(erro.getMessage());
+                    JOptionPane.showMessageDialog(null, "Entrada Inválida");
+                }
+            } else
+                JOptionPane.showMessageDialog(null, "Opção Inválida");
         }
-        
-        
-        
-    
     }
     
     public static int menu() {
@@ -59,7 +78,8 @@ public class ClasseP {
                                                                              + "[ 2 ] Exibir Cliente\n"
                                                                              + "[ 3 ] Comprar Ingresso\n"
                                                                              + "[ 4 ] Comprar Comida/bebida\n"
-                                                                             + "[ 5 ] Sair"));
+                                                                             + "[ 5 ] Ver Filmes Em Cartaz\n"
+                                                                             + "[ 6 ] Sair"));
                 return opcao;
             } catch(NumberFormatException e) {
                 System.out.println(e.getMessage());
@@ -68,6 +88,23 @@ public class ClasseP {
                 }
         } 
         
+    }
+    
+    public static int menuSessao() {
+        int opcao;
+        
+        while(true){
+            try{
+                opcao = Integer.parseInt(JOptionPane.showInputDialog(null, "Bem-vindo ao CineJava\n"
+                                                                             + "[ 1 ] Inserir sala\n"
+                                                                             + "[ 2 ] Inserir uma nova sessao na sala"));
+                return opcao;
+            } catch(NumberFormatException e) {
+                System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(null, "Entrada Inválida", "ERRO", JOptionPane.PLAIN_MESSAGE);
+                continue;
+                }
+        }
     }
     
     public static Cliente cadastraCliente(Cinema cinema) {
@@ -134,10 +171,11 @@ public class ClasseP {
         nomeCliente = JOptionPane.showInputDialog(null, "Nome do Cliente ");
         
         Cliente cliente = cinema.getCliente(nomeCliente);
-        Conta conta = cliente.getConta();
+        
         if(cliente != null) {
+            Conta conta = cliente.getConta();
             relatorio = ("\nNome: "+ cliente.getNome() +"\nIdade: "+ cliente.getIdade() +"\nCPF: "+ cliente.getCpf() 
-                    +"Numero da Conta: "+ conta.getNumeroConta());
+                    +"\nNumero da Conta: "+ conta.getNumeroConta() +"\nConta: "+ conta.getValorConta());
             JOptionPane.showMessageDialog(null, relatorio, "Relatorio", JOptionPane.PLAIN_MESSAGE);
         }
         else
@@ -146,48 +184,57 @@ public class ClasseP {
     }
     
     public static void comprarIngresso(Cinema cinema) {
-        ArrayList<Sala> salas = cinema.getSalas();
         Funcionario funcionario = new Funcionario();
         String nomeCliente, filme;
-        Date horarioSessao, dataSessao;
-        SimpleDateFormat formathora = new SimpleDateFormat("HH");
-        SimpleDateFormat formatdata = new SimpleDateFormat("dd/MM/yyyy");
+        int dia, mes, ano, hora;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         boolean confirmacao;
         
         nomeCliente = JOptionPane.showInputDialog(null, "Nome do Cliente ");
         
         Cliente cliente = cinema.getCliente(nomeCliente);
-        Conta conta = cliente.getConta();
         
         if(cliente != null) {
             while(true){
                 try {
                     filme  = JOptionPane.showInputDialog(null, "Qual filme deseja assistir:? ");
-                    horarioSessao = formathora.parse(JOptionPane.showInputDialog(null, "Hora da sessão: (HH): "));
-                    dataSessao = formatdata.parse(JOptionPane.showInputDialog(null, "Data do fim da sessão (dd/MM/yyyy): "));
-                    confirmacao = funcionario.venderIngresso(cliente, dataSessao, horarioSessao, filme, cinema);
+                    dia = Integer.parseInt(JOptionPane.showInputDialog(null, "Dia da sessão (dd): "));
+                    mes = Integer.parseInt(JOptionPane.showInputDialog(null, "Mes da sessão (MM): "));
+                    ano = Integer.parseInt(JOptionPane.showInputDialog(null, "Ano da sessão (yyyy): "));
+                    hora = Integer.parseInt(JOptionPane.showInputDialog(null, "Hora da sessão: (HH): "));
+                    
+                    String data = dia+"/"+mes+"/"+ano;
+                    
+                    Date dataCliente = sdf.parse(data);
+                    confirmacao = funcionario.venderIngresso(cliente, dataCliente, filme, cinema, hora);
+                    
                     if(!confirmacao) {
-                        JOptionPane.showMessageDialog(null, "Formato indisponível. ");
+                        JOptionPane.showMessageDialog(null, "Horário indisponível. ");
                         continue;
                     }
                     break;
-                } catch (ParseException ex) {
+                } catch (ParseException | NumberFormatException ex) {
                     System.out.println(ex.getMessage());
                     continue;
                  }
             }
             
         }
+        else
+            JOptionPane.showMessageDialog(null, "Cliente Inexistente");
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
+    public static void mostraFilmes(ArrayList<Sala> salas) {
+        for(Sala sala : salas) {
+            ArrayList<Sessao> sessoes = sala.getSessoes();
+            for(Sessao sessao : sessoes) {
+                Filme filme = sessao.getFilme();
+                JOptionPane.showMessageDialog(null, "Título: "+ filme.getTitulo() +"\nGênero: "+ filme.getGenero() +"\nDuração: "+
+                    filme.getDuracao() +"\nSala: "+ sala.getNumeroSala() 
+                    +"\nData Disponível: "+ sessao.getDataInicio() +"  à  "+ sessao.getDataFim() +" Horário: "+ sessao.getHorario());
+            } 
+        }
+    }
     
     public static float menuCompras(Cinema cinema) {
         int opcao, continuar = 1;
@@ -201,78 +248,50 @@ public class ClasseP {
             cliente = cinema.getCliente(nomeCliente);
         } while(cliente == null);
         
-        Conta conta = new Conta();
+        Conta conta = cliente.getConta();
         
-        conta.setAgencia(Integer.parseInt(JOptionPane.showInputDialog(null, "Agencia Bancária: ")));
-        conta.setNumeroConta(Integer.parseInt(JOptionPane.showInputDialog(null, "Numero da Conta: ")));
+        try {
+            conta.setAgencia(Integer.parseInt(JOptionPane.showInputDialog(null, "Agencia Bancária: ")));
+            conta.setNumeroConta(Integer.parseInt(JOptionPane.showInputDialog(null, "Numero da Conta: ")));
         
-        while(continuar == 1) {    
-            while(true){
-                try{
-                    opcao = Integer.parseInt(JOptionPane.showInputDialog(null, "Bem-vindo ao banco Javou\n"
+            while(continuar == 1) { 
+                while(true){
+                    try{
+                        opcao = Integer.parseInt(JOptionPane.showInputDialog(null, "Bem-vindo ao banco Javou\n"
                                                                                  + "[ 1 ] Pipoca Pequena: R$ 4,00\n"
                                                                                  + "[ 2 ] Pipoca Grande: R$ 7,00\n"
                                                                                  + "[ 3 ] Água: R$ 3,00\n"
                                                                                  + "[ 4 ] Chocolate: R$ 4,00\n"
                                                                                  + "[ 5 ] Refrigerante: R$ 6,50"));
-                    if(opcao < 1 || opcao > 5) {
-                        JOptionPane.showMessageDialog(null, "Opcao Inválida");
+                        if(opcao < 1 || opcao > 5) {
+                            JOptionPane.showMessageDialog(null, "Opcao Inválida");
+                            continue;
+                        }
+                    
+                        valorConta += funcionario.venda(conta, opcao);
+                    
+                        break;
+                    } catch(NumberFormatException e) {
+                        System.out.println(e.getMessage());
+                        JOptionPane.showMessageDialog(null, "Entrada Inválida", "ERRO", JOptionPane.PLAIN_MESSAGE);
                         continue;
                     }
-                    
-                    valorConta += funcionario.venda(conta, opcao);
-                    break;
-                } catch(NumberFormatException e) {
-                    System.out.println(e.getMessage());
-                    JOptionPane.showMessageDialog(null, "Entrada Inválida", "ERRO", JOptionPane.PLAIN_MESSAGE);
-                    continue;
-                 }
+                }
+            
+                do{
+                    continuar = Integer.parseInt(JOptionPane.showInputDialog(null, "Deseja fazer outra compra? [1-S/0-N]"));
+                } while(continuar != 1 && continuar != 0);
             }
-            
-            
-            do{
-                continuar = Integer.parseInt(JOptionPane.showInputDialog(null, "Deseja fazer outra compra? [1-S/0-N]"));
-            } while(continuar != 1 && continuar != 0);
+        } catch(NumberFormatException erro) {
+            System.out.println(erro.getMessage());
+            JOptionPane.showMessageDialog(null, "Entrada Inválida! ");
+            menuCompras(cinema);
         }
         
-        JOptionPane.showMessageDialog(null, "Total: "+ valorConta, "Conta", JOptionPane.PLAIN_MESSAGE);
-        conta.setSaldo(conta.getSaldo() + valorConta);
+        
+        JOptionPane.showMessageDialog(null, "Total: "+ valorConta +"0", "Conta", JOptionPane.PLAIN_MESSAGE);
+        conta.setValorConta(conta.getValorConta() + valorConta);
 
         return valorConta;
-    }
-    
-    public static void insereSala(Cinema cinema) {
-        Sala sala = new Sala();
-        Sessao sessao = new Sessao();
-        
-        SimpleDateFormat formatdata = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat formathora = new SimpleDateFormat("HH");
-        
-        try {
-            sessao.setDataInicio(formatdata.parse(JOptionPane.showInputDialog(null, "Data do ínicio da sessão (dd/MM/yyyy): ")));
-            sessao.setDataFim(formatdata.parse(JOptionPane.showInputDialog(null, "Data do fim da sessão (dd/MM/yyyy): ")));
-            Date data = sessao.getDataFim();
-            System.out.println(data);
-            
-            
-            sessao.setFilme(insereFilme());
-            sessao.setHorarioSessao(formathora.parse(JOptionPane.showInputDialog(null, "Hora da sessão: (HH): ")));
-            sala.criarSala();
-        } catch (ParseException ex) {
-            System.out.println(ex.getMessage());
-        }
-        
-        sala.setSessao(sessao);
-    }
-    
-    public static Filme insereFilme() {
-        Filme filme = new Filme();
-        
-        filme.setTitulo(JOptionPane.showInputDialog(null, "Titulo do Filme: "));
-        filme.setDuracao(Integer.parseInt(JOptionPane.showInputDialog(null, "Duração: ")));
-        filme.setGenero(JOptionPane.showInputDialog(null, "Gênero: "));
-        filme.setDescricao(JOptionPane.showInputDialog(null, "Sinopse: "));
-        
-        return filme;
     }
 }

@@ -34,6 +34,19 @@ public class Cinema implements Serializable{
         this.salas = salas;
     }
 
+    public void setSala(Sala sala){
+	this.salas.add(sala);
+    }
+
+    public Sala getSala(int numeroSala){
+	for(Sala sala : salas){
+            if(sala.getNumeroSala() == numeroSala){
+		return sala;
+            }
+	}
+	return null;
+    }
+        
     public ArrayList<Funcionario> getFuncionarios() {
         return funcionarios;
     }

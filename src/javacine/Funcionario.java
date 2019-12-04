@@ -1,21 +1,21 @@
 package javacine;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class Funcionario extends Pessoa {
-    private String funcao;
-    private double salario;
+    private Endereco endereco = new Endereco();
     
     public Funcionario(){
         super();
     }
     
-    public Funcionario(String nome, String identidade, String cpf, int id, String funcao, double salario) {
-        super(nome, identidade, cpf, id);
-        this.funcao = funcao;
-        this.salario = salario;
+    public Funcionario(String nome, String identidade, String cpf, Endereco endereco) {
+        super(nome, identidade, cpf);
+        this.endereco = endereco;
     }
     
     public float venda(Conta conta, int opcao) {
@@ -35,30 +35,57 @@ public class Funcionario extends Pessoa {
                 valorConta += vendas.getRefrigerante();  break;
         }
         
-        conta.setSaldo(conta.getSaldo() - valorConta);
         return valorConta;
     }
     
-    public boolean venderIngresso(Cliente cliente, Date dataFilme, Date horarioFilme, String filme, Cinema cinema) {
+    public boolean venderIngresso(Cliente cliente, Date dataCliente, String nomefilme, Cinema cinema, int hora) {
         ArrayList<Sala> salas = cinema.getSalas();
-        long diferenca1, diferenca2;
         float valorIngresso;
         Conta conta = cliente.getConta();
         
         for(Sala sala : salas) {
-            Sessao sessao = sala.getSessao();
-            Filme nomeFilme = sessao.getFilme();
-            diferenca1 = dataFilme.getTime() - sessao.getDataInicio().getTime();
-            diferenca2 = sessao.getDataFim().getTime() - dataFilme.getTime();
-            if(diferenca1 >= 0 && diferenca2 >= 0 && nomeFilme.equals(filme)) {
-                valorIngresso = valorIngresso(cliente);
-                conta.setSaldo(conta.getSaldo() - valorIngresso);
-                return true;
+            ArrayList<Sessao> sessoes = sala.getSessoes();
+            for(Sessao sessao : sessoes) {
+                
+                Filme filme = sessao.getFilme();
+                int horarioSessao = sessao.getHorario();
+                boolean depoisEntrarCartaz = dataCliente.after(sessao.getDataInicio());
+                boolean antesSairCartaz = dataCliente.before(sessao.getDataFim());
+
+                if(depoisEntrarCartaz && antesSairCartaz && filme.getTitulo().equals(nomefilme) && hora == horarioSessao) {
+                    escolheCadeira(sala, cliente, hora);
+                    valorIngresso = valorIngresso(cliente);
+                    conta.setValorConta(conta.getValorConta() + valorIngresso);
+                    
+                    JOptionPane.showMessageDialog(null, "Filme: "+ filme.getTitulo() +"\nSala: "+ sala.getNumeroSala() +
+                            "\nData: "+ dataCliente +"\nHorário: "+ hora +":00"
+                            , "Ingresso", JOptionPane.PLAIN_MESSAGE);
+                    return true;
+                }
             }
         }
         return false;
     }
     
+    public void escolheCadeira(Sala sala, Cliente cliente, int hora) {
+        int linha, coluna;
+        
+        sala.mostrarSala(hora);
+        
+        while(true) {
+            try {
+                linha = Integer.parseInt(JOptionPane.showInputDialog(null, "Linha da cadeira: "));
+                coluna = Integer.parseInt(JOptionPane.showInputDialog(null, "Coluna da cadeira: "));
+                sala.escolherCadeira(linha, coluna, hora);
+                break;
+            } catch (CadeiraOcupadaException | NumberFormatException erro) {
+                JOptionPane.showMessageDialog(null, erro.getMessage());
+                continue;
+            }
+
+        }
+    }
+
     public float valorIngresso(Cliente cliente) {
         float valorIngresso;
         
@@ -70,25 +97,57 @@ public class Funcionario extends Pessoa {
         return valorIngresso;
     }
     
+    public void insereSala(Cinema cinema) {
+        Sala sala = new Sala();
+        
+        sala.setNumeroSala(Integer.parseInt(JOptionPane.showInputDialog(null, "Número da sala: ")));
+        
+        cinema.setSala(insereSessao(sala));
+    }
     
+    public Sala insereSessao(Sala sala) {
+        int continuar;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        
+        while(true) {
+            try {
+                Sessao sessao = new Sessao();
+                sessao.setDataInicio(sdf.parse(JOptionPane.showInputDialog(null, "Data do ínicio da sessão (dd/MM/yyyy HH): ")));
+                sessao.setDataFim(sdf.parse(JOptionPane.showInputDialog(null, "Data do fim da sessão (dd/MM/yyyy HH): ")));
+                sessao.setHorario(Integer.parseInt(JOptionPane.showInputDialog(null, "Horário da sessão (HH): ")));
+
+                sessao.setFilme(insereFilme());
+                continuar = Integer.parseInt(JOptionPane.showInputDialog(null, "Deseja inserir mais uma sessão? [1=S]"));
+                sala.setSessao(sessao);
+                sessao.disponibilizarCadeiras();
+                if(continuar == 1)
+                    continue;
+                return sala;
+            } catch (ParseException | NumberFormatException ex) {
+                System.out.println(ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Entrada Inválida! ");
+                continue;
+            }
+        }
+    }
     
-    
-    
-    
-    public String getFuncao() {
-        return funcao;
+    public  Filme insereFilme() {
+        Filme filme = new Filme();
+        
+        filme.setTitulo(JOptionPane.showInputDialog(null, "Titulo do Filme: "));
+        filme.setDuracao(Integer.parseInt(JOptionPane.showInputDialog(null, "Duração: ")));
+        filme.setGenero(JOptionPane.showInputDialog(null, "Gênero: "));
+        filme.setDescricao(JOptionPane.showInputDialog(null, "Sinopse: "));
+        
+        return filme;
     }
 
-    public void setFuncao(String funcao) {
-        this.funcao = funcao;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public double getSalario() {
-        return salario;
-    }
-
-    public void setSalario(double salario) {
-        this.salario = salario;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
     
     

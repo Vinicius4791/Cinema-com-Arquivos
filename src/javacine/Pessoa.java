@@ -6,16 +6,14 @@ public class Pessoa implements Serializable{
     private String nome;
     private String identidade;
     private String cpf;
-    private int id;
     private Endereco endereco = new Endereco();
 
     public Pessoa(){}
     
-    public Pessoa(String nome, String identidade, String cpf, int id) {
+    public Pessoa(String nome, String identidade, String cpf) {
         this.nome = nome;
         this.identidade = identidade;
         this.cpf = cpf;
-        this.id = id;
     }
     
     public String getNome() {
@@ -40,22 +38,6 @@ public class Pessoa implements Serializable{
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public int getIdentificador() {
-        return id;
-    }
-
-    public void setIdentificador(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Endereco getEndereco() {

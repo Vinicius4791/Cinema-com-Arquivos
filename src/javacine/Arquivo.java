@@ -35,6 +35,7 @@ public class Arquivo{
             obj.close();
             arquivo.close();
             return cinema;
+            
         }
         catch(IOException | ClassNotFoundException e){
             JOptionPane.showMessageDialog(null, "Arquivo não encontrado.");

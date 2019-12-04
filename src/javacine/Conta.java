@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Conta implements Serializable{
     private int agencia;
     private int numeroConta;
-    private float saldo;
+    private float valorConta;
 
     public Conta(){}
     
@@ -30,12 +30,12 @@ public class Conta implements Serializable{
         this.numeroConta = numeroConta;
     }
 
-    public float getSaldo() {
-        return saldo;
+    public float getValorConta() {
+        return valorConta;
     }
 
-    public void setSaldo(float saldo) {
-        this.saldo = saldo;
+    public void setValorConta(float valorConta) {
+        this.valorConta = valorConta;
     }
     
     

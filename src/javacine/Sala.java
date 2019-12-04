@@ -1,33 +1,69 @@
 package javacine;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Sala implements Serializable{
-    private int numeroSala = 0;
-    private Sessao sessao;
-    private char[][] situacaoAssento = new char[2][50];
+    private int numeroSala;
+    private ArrayList<Sessao> sessoes = new ArrayList<Sessao>();
     
     public Sala(){}
 
-    public Sala(Assento assentos, Sessao sessao) {
-        numeroSala++;
-        this.sessao = sessao;
+    public Sala(int numeroSala, ArrayList<Sessao> sessoes) {
+        this.numeroSala = numeroSala;
+        this.sessoes = sessoes;
     }
     
-    public void criarSala() {
-        for(int i=0; i < situacaoAssento.length; i++) {
-            for(int j=0; j < situacaoAssento[i].length; j++) {
-                situacaoAssento[i][j] = 'O';
+    
+    
+    public void mostrarSala(int hora) {
+        
+        for(int i=0; i<10; i++) {
+            System.out.print((i+1) +"  ");
+            if(i==4)
+                System.out.print("  ");
+        }
+        System.out.println("\n");
+        
+        for(Sessao sessao : sessoes) {
+            if(sessao.getHorario() == hora) {
+                char situacaoAssento[][] = sessao.getSituacaoAssento();
+                
+                for(int i=0; i < situacaoAssento.length; i++) {
+                    for(int j=0; j < situacaoAssento[i].length; j++) {
+                        System.out.print(situacaoAssento[i][j] +"  ");
+                        if(j==4)
+                            System.out.print("  ");
+                
+                    }
+                System.out.println(" "+ (i+1)+"\n");
+                }
             }
         }
+        
+        
+        
     }
     
-    public void mostrarSala() {
-        for(int i=0; i < 2; i++) {
-            for(int j=0; j < 50; i++) {
-                System.out.println(situacaoAssento[i][j]);
-            }
+    public void escolherCadeira(int linha, int coluna, int hora) throws CadeiraOcupadaException {
+        
+        for(Sessao sessao : sessoes) {
+            if(sessao.getHorario() == hora) {
+                char situacaoAssento[][] = sessao.getSituacaoAssento();
+                
+                for(int i=0; i < situacaoAssento.length; i++) {
+                    for(int j=0; j < situacaoAssento[i].length; j++) {
+                        if(linha-1 == i && coluna-1 == j) {
+                            if(situacaoAssento[i][j] == 'X')
+                                throw new CadeiraOcupadaException();
+                            else
+                                situacaoAssento[i][j] = 'X';
+                        }
+                    }
+                }
+            }   
         }
+        
     }
 
     public int getNumeroSala() {
@@ -37,14 +73,25 @@ public class Sala implements Serializable{
     public void setNumeroSala(int numeroSala) {
         this.numeroSala = numeroSala;
     }
-    
-    public Sessao getSessao() {
-        return sessao;
+
+    public ArrayList<Sessao> getSessoes() {
+        return sessoes;
     }
 
-    public void setSessao(Sessao sessao) {
-        this.sessao = sessao;
+    public void setSessoes(ArrayList<Sessao> sessoes) {
+        this.sessoes = sessoes;
     }
     
-    
+    public void setSessao(Sessao sessao){
+	this.sessoes.add(sessao);
+    }
+
+    public Sessao getSala(int horario){
+	for(Sessao sessao : sessoes){
+            if(sessao.getHorario() == horario){
+		return sessao;
+            }
+	}
+	return null;
+    }    
 }
