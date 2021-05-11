@@ -2,15 +2,14 @@ package javacine;
 
 public class Cliente extends Pessoa {
     private int idade;
-    Endereco endereco = new Endereco();
     Conta conta = new Conta();
     
     public Cliente(){
         super();
     }
     
-    public Cliente(String nome, String identidade, String cpf, int idade) {
-        super(nome, identidade, cpf);
+    public Cliente(String nome, String identidade, String cpf, int idade, Endereco endereco) {
+        super(nome, identidade, cpf, endereco);
         this.idade = idade;
     }
 
@@ -20,14 +19,6 @@ public class Cliente extends Pessoa {
 
     public void setIdade(int idade) {
         this.idade = idade;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
     }
 
     public Conta getConta() {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Cinema implements Serializable{
     private Endereco endereco = new Endereco();
+    private Vendas vendas = new Vendas();
     private ArrayList<Sala> salas = new ArrayList<Sala>();
     private ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>();
     private ArrayList<Cliente> clientes = new ArrayList<Cliente>();

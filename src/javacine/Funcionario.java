@@ -7,15 +7,13 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class Funcionario extends Pessoa {
-    private Endereco endereco = new Endereco();
     
     public Funcionario(){
         super();
     }
     
     public Funcionario(String nome, String identidade, String cpf, Endereco endereco) {
-        super(nome, identidade, cpf);
-        this.endereco = endereco;
+        super(nome, identidade, cpf, endereco);
     }
     
     public float venda(Conta conta, int opcao) {
@@ -141,14 +139,4 @@ public class Funcionario extends Pessoa {
         
         return filme;
     }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-    
-    
 }

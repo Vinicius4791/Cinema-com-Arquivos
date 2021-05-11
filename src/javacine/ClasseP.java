@@ -44,21 +44,19 @@ public class ClasseP {
                 
                 try {
                     senha1 = Integer.parseInt(JOptionPane.showInputDialog(null, "Senha: "));
-                if(senha1 == senha) {
-                    op = menuSessao();
-                    if(op == 1)
-                        funcionario.insereSala(cinema);
-                    else {
-                        numSala = Integer.parseInt(JOptionPane.showInputDialog(null, "Número da sala: "));
-                        for(Sala sala : cinema.getSalas()) {
-                            if(numSala == sala.getNumeroSala())
-                                funcionario.insereSessao(sala);
-                            else
-                                JOptionPane.showMessageDialog(null, "Sala não existe");
+                    if(senha1 == senha) {
+                        op = menuSessao();
+                        if(op == 1)
+                            funcionario.insereSala(cinema);
+                        else {
+                            numSala = Integer.parseInt(JOptionPane.showInputDialog(null, "Número da sala: "));
+                            for(Sala sala : cinema.getSalas()) {
+                                if(numSala == sala.getNumeroSala())
+                                    funcionario.insereSessao(sala);
+                            }
                         }
-                    }
-                } else
-                    JOptionPane.showMessageDialog(null, "Senha Incorreta.");
+                    } else
+                        JOptionPane.showMessageDialog(null, "Senha Incorreta.");
                 } catch(NumberFormatException erro) {
                     System.out.println(erro.getMessage());
                     JOptionPane.showMessageDialog(null, "Entrada Inválida");

@@ -14,8 +14,6 @@ public class Sala implements Serializable{
         this.sessoes = sessoes;
     }
     
-    
-    
     public void mostrarSala(int hora) {
         
         for(int i=0; i<10; i++) {
@@ -40,9 +38,6 @@ public class Sala implements Serializable{
                 }
             }
         }
-        
-        
-        
     }
     
     public void escolherCadeira(int linha, int coluna, int hora) throws CadeiraOcupadaException {

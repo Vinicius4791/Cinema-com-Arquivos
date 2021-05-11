@@ -8,7 +8,7 @@ public class Conta implements Serializable{
     private float valorConta;
 
     public Conta(){}
-    
+    //Isso é uma comanda
     public Conta(int agencia, int numeroConta) {
         this.agencia = agencia;
         this.numeroConta = numeroConta;

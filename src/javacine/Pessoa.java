@@ -10,10 +10,11 @@ public class Pessoa implements Serializable{
 
     public Pessoa(){}
     
-    public Pessoa(String nome, String identidade, String cpf) {
+    public Pessoa(String nome, String identidade, String cpf, Endereco endereco) {
         this.nome = nome;
         this.identidade = identidade;
         this.cpf = cpf;
+        this.endereco = endereco;
     }
     
     public String getNome() {
