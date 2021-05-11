@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import javax.swing.JOptionPane;
 
 public class Arquivo{
-    
+    //Escrita no arquivo
     public void write(Cinema cinema){
         try{
             
@@ -26,7 +26,7 @@ public class Arquivo{
             JOptionPane.showMessageDialog(null, "Ocorreu um erro durante a gravação do arquivo.");
         }
     }
-    
+    //Leitura do arquivo
     public Cinema read(){
         try{
             FileInputStream arquivo = new FileInputStream("C:\\Users\\vinic\\Downloads\\Documents\\cinejava.txt");
